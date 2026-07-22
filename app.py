@@ -196,6 +196,28 @@ with col4:
         delta="Buffer Spark: 30d",
     )
 
+    # --- Bloco de Inteligência Prescritiva & Recomendações ---
+st.subheader("💡 Recomendações Prescritivas de Operação")
+
+if variacao_pct > 5.0:
+    st.error(
+        f"🚨 **ALERTA DE PICO DE PROCESSAMENTO (+{variacao_pct:.1f}% vs. Último Registro):**\n\n"
+        "- **Logística & Pátio:** Contratar frota complementar de caminhões e liberar espaço nos silos de espera.\n"
+        "- **Planta Industrial:** Escalar equipe adicional para os tombadores e aumentar o ritmo da moenda para evitar gargalos no recebimento."
+    )
+elif variacao_pct < -5.0:
+    st.warning(
+        f"⚠️ **JANELA DE BAIXA DEMANDA ({variacao_pct:.1f}% vs. Último Registro):**\n\n"
+        "- **Manutenção Preventiva:** Aproveitar a redução de volume para realizar revisão nas esteiras e secadores.\n"
+        "- **Otimização de Custos:** Reduzir horas extras da equipe operacional e desacelerar a contratação de frete spot."
+    )
+else:
+    st.info(
+        f"✅ **OPERAÇÃO EM RITMO NOMINAL ({variacao_pct:+.1f}% vs. Último Registro):**\n\n"
+        "- **Manutenção da Escala:** Fluxo de recebimento alinhado com a capacidade padrão da unidade.\n"
+        "- **Suprimentos:** Manter o plano regular de amostragem e classificação de grãos na recepção."
+    )
+
 st.markdown("---")
 
 # 5. Abas Principais de Visualização
