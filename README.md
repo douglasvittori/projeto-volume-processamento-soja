@@ -85,9 +85,11 @@ Navegue até a pasta do projeto e inicie a aplicação web:
 cd projetos/projeto-volume-processamento-soja
 streamlit run app.py
 ```
+## 💻 Desenvolvedor
 
----
+   Douglas Vittori - Cientista de Dados em Formação
 
-## 👨‍💻 Autor
+   🔗 Conecte-se comigo no [LinkedIn](https://www.linkedin.com/in/douglasvittori/)
 
-Projeto desenvolvido como parte do portfólio profissional em Engenharia de Dados, Ciência de Dados e Big Data.
+   🚀 Conheça meu [Portfólio de Dados](https://douglasvittori-portfolio.lovable.app/)
+```
