@@ -199,21 +199,44 @@ with col4:
     # --- Bloco de Inteligência Prescritiva & Recomendações ---
 st.subheader("💡 Recomendações Prescritivas de Operação")
 
-if variacao_pct > 5.0:
+# Permite ao usuário simular cenários de teste ou usar o dado real
+modo_simulacao = st.radio(
+    "Modo de Visualização das Recomendações:",
+    options=["Automático (Baseado no Modelo Preditivo)", "Simular Cenários de Negócio"],
+    horizontal=True,
+    help="No modo automático, o alerta se adapta à variação do ARIMA. No modo de simulação, você pode testar como o sistema reage a picos e quedas operacionais."
+)
+
+variacao_analisada = variacao_pct
+
+if modo_simulacao == "Simular Cenários de Negócio":
+    cenario = st.selectbox(
+        "Selecione um cenário para testar a resposta do sistema:",
+        ["Pico Severo (+12% no recebimento)", "Queda Brusca (-15% na moagem)", "Operação Estável (+1%)"]
+    )
+    if "Pico" in cenario:
+        variacao_analisada = 12.0
+    elif "Queda" in cenario:
+        variacao_analisada = -15.0
+    else:
+        variacao_analisada = 1.0
+
+# Regra Prescritiva
+if variacao_analisada > 2.0:
     st.error(
-        f"🚨 **ALERTA DE PICO DE PROCESSAMENTO (+{variacao_pct:.1f}% vs. Último Registro):**\n\n"
+        f"🚨 **ALERTA DE PICO DE PROCESSAMENTO (+{variacao_analisada:.1f}% vs. Último Registro):**\n\n"
         "- **Logística & Pátio:** Contratar frota complementar de caminhões e liberar espaço nos silos de espera.\n"
         "- **Planta Industrial:** Escalar equipe adicional para os tombadores e aumentar o ritmo da moenda para evitar gargalos no recebimento."
     )
-elif variacao_pct < -5.0:
+elif variacao_analisada < -2.0:
     st.warning(
-        f"⚠️ **JANELA DE BAIXA DEMANDA ({variacao_pct:.1f}% vs. Último Registro):**\n\n"
+        f"⚠️ **JANELA DE BAIXA DEMANDA ({variacao_analisada:.1f}% vs. Último Registro):**\n\n"
         "- **Manutenção Preventiva:** Aproveitar a redução de volume para realizar revisão nas esteiras e secadores.\n"
         "- **Otimização de Custos:** Reduzir horas extras da equipe operacional e desacelerar a contratação de frete spot."
     )
 else:
     st.info(
-        f"✅ **OPERAÇÃO EM RITMO NOMINAL ({variacao_pct:+.1f}% vs. Último Registro):**\n\n"
+        f"✅ **OPERAÇÃO EM RITMO NOMINAL ({variacao_analisada:+.1f}% vs. Último Registro):**\n\n"
         "- **Manutenção da Escala:** Fluxo de recebimento alinhado com a capacidade padrão da unidade.\n"
         "- **Suprimentos:** Manter o plano regular de amostragem e classificação de grãos na recepção."
     )
