@@ -42,16 +42,15 @@ def carregar_dados():
     # 1. Mapeia o diretório onde o próprio app.py está localizado
     DIR_ATUAL = Path(__file__).resolve().parent
 
-    # 2. Lista de possíveis caminhos para os arquivos (ordem de prioridade)
+    # 2. Lista de possíveis caminhos para os arquivos no projeto e no container Spark
     caminhos_possiveis = [
-        # Opção 1: Pasta 'datasets' subindo duas pastas (projetos-cluster-spark/datasets)
-        DIR_ATUAL.parents[1] / "datasets" / "projeto-volume-processamento-soja",
-        DIR_ATUAL.parents[1] / "datasets",
-        # Opção 2: Dentro do Container Docker / Spark
+        # Opção 1: Na própria pasta onde o app.py e os arquivos estão
+        DIR_ATUAL,
+        # Opção 2: Dentro de uma pasta 'datasets' dentro do próprio projeto
+        DIR_ATUAL / "datasets",
+        # Opção 3: Dentro do Container Docker / Spark (se rodando localmente no Spark)
         Path("/opt/spark/dados/projeto-volume-processamento-soja"),
         Path("/opt/spark/dados"),
-        # Opção 3: Na própria pasta onde está o app.py
-        DIR_ATUAL,
     ]
 
     base_path = None
